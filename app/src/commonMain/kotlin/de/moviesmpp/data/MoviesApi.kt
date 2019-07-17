@@ -1,20 +1,18 @@
 package de.moviesmpp.data
 
-import de.moviesmpp.data.entity.PopularMoviesEntity
+import de.moviesmpp.data.entity.PostEntity
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
-import io.ktor.client.request.header
-import io.ktor.client.request.parameter
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.URLProtocol
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.list
 
-private const val BASE_URL = "api.themoviedb.org/4"
-private const val HEADER_AUTHORIZATION = "Authorization"
+private const val BASE_URL = "jsonplaceholder.typicode.com"
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class MoviesApi(clientEngine: HttpClientEngine) {
@@ -25,7 +23,7 @@ class MoviesApi(clientEngine: HttpClientEngine) {
         }
     }
 
-    suspend fun getPopularMovies(): PopularMoviesEntity {
+    suspend fun getPopularMovies(): List<PostEntity> {
         // Actually we're able to just return the get()-call and Ktor's JsonFeature will automatically do the
         // JSON parsing for us. However, this currently doesn't work with Kotlin/Native as it doesn't support reflection
         // and we have to manually use PopularMoviesEntity.serializer()
@@ -33,14 +31,12 @@ class MoviesApi(clientEngine: HttpClientEngine) {
             url {
                 protocol = URLProtocol.HTTPS
                 host = BASE_URL
-                encodedPath = "/discover/movie"
-                parameter("sort_by", "popularity.desc")
-                header(HEADER_AUTHORIZATION, API_KEY.asBearerToken())
+                encodedPath = "/posts"
             }
         }
 
         val jsonBody = response.readText()
-        return Json.parse(PopularMoviesEntity.serializer(), jsonBody)
+        return Json.parse(PostEntity.serializer().list, jsonBody)
     }
 }
 

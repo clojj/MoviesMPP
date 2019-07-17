@@ -1,7 +1,7 @@
 package de.moviesmpp.presentation.popularmovies
 
 import de.moviesmpp.domain.defaultDispatcher
-import de.moviesmpp.domain.model.Movie
+import de.moviesmpp.domain.model.Post
 import de.moviesmpp.domain.usecase.GetPopularMovies
 import de.moviesmpp.domain.usecase.UseCase
 import de.moviesmpp.presentation.BasePresenter
@@ -22,7 +22,7 @@ class PopularMoviesPresenter(
         scope.launch {
             getPopularMovies(
                 UseCase.None,
-                onSuccess = { view?.setPopularMovies(it.results) },
+                onSuccess = { view?.setPopularMovies(it) },
                 onFailure = { view?.showMoviesFailedToLoad() }
             )
             view?.setLoadingVisible(false)
@@ -32,7 +32,7 @@ class PopularMoviesPresenter(
 
 interface PopularMoviesView {
 
-    fun setPopularMovies(movies: List<Movie>)
+    fun setPopularMovies(movies: List<Post>)
 
     fun showMoviesFailedToLoad()
 

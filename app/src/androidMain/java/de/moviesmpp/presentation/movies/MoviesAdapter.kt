@@ -6,13 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import de.R
-import de.moviesmpp.domain.model.Movie
+import de.moviesmpp.domain.model.Post
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
-    var movies: List<Movie> = emptyList()
+    var posts: List<Post> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -28,13 +27,13 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = posts.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movies[position]
+        val post = posts[position]
         with(holder) {
-            Glide.with(posterView).load(movie.completePosterPath).into(posterView)
-            titleView.text = movie.title
+//            Glide.with(posterView).load(post.title).into(posterView)
+            titleView.text = post.title
         }
     }
 

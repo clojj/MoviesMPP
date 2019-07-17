@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import de.R
 import de.moviesmpp.ServiceLocator
-import de.moviesmpp.domain.model.Movie
+import de.moviesmpp.domain.model.Post
 import de.moviesmpp.presentation.popularmovies.PopularMoviesView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity(), PopularMoviesView {
         presenter.detachView()
     }
 
-    override fun setPopularMovies(movies: List<Movie>) {
-        Log.i(logTag, "Setting these movies in view $movies")
-        moviesAdapter.movies = movies
+    override fun setPopularMovies(posts: List<Post>) {
+        Log.i(logTag, "Setting these posts in view $posts")
+        moviesAdapter.posts = posts
     }
 
     override fun showMoviesFailedToLoad() {
